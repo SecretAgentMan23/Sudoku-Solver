@@ -1,4 +1,3 @@
-// wxWidgets "Hello World" Program
 // For compilers that support precompilation, includes "wx/wx.h".
 #include <wx/wxprec.h>
 #include <Windows.h>
@@ -30,7 +29,7 @@ wxBEGIN_EVENT_TABLE(MyFrame, wxFrame)
 wxEND_EVENT_TABLE()
 
 MyFrame::MyFrame()
-    : wxFrame(NULL, wxID_ANY, "Hello World")
+    : wxFrame(NULL, wxID_ANY, "Sudoku Solver")
 {
     int const_size = 400 / 9;
     wxMenu* menuFile = new wxMenu;

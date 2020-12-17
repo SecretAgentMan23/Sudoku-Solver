@@ -8,11 +8,7 @@
 
 // Main Class that controls the app, always need, 
 // implement onInit to create new frame, show it, return
-class MyApp : public wxApp
-{
-public:
-    virtual bool OnInit();
-};
+
 
 //The main frame class, where GUI is actually created
 //Along with all the methods for event handling
@@ -42,4 +38,10 @@ enum //Identifiers for custom event methods not found in wxID standards
     ID_HELLO = 2,
     ID_GENERATE_BOARD = 3,
     ID_SOLVE = 4
+};
+
+class MyApp : public wxApp
+{
+public:
+    virtual bool OnInit();
 };
