@@ -24,11 +24,9 @@ private:
     void OnAbout(wxCommandEvent& event);
     void Solve(wxCommandEvent& event);
     bool Solver();
-    bool Solver(int puzzle[9][9]);
     void setSeed(int puzzleSeed[9][9]);
     void genPuzzle();
     bool CheckMoveLegal(int ROW, int COL, int NUM);
-    bool CheckMoveLegal(int puzzle[9][9], int ROW, int COL, int NUM);
     std::pair<int, int> getEmptyCell();
     std::pair<int, int> getEmptyCell(int puzzle[9][9]);
     wxDECLARE_EVENT_TABLE();

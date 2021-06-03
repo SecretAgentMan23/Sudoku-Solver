@@ -64,6 +64,9 @@ MyFrame::MyFrame()
     grid->SetDefaultColSize(const_size, false);
     grid->HideRowLabels();
     grid->HideColLabels();
+    grid->EnableEditing(false);
+    grid->SetDefaultCellBackgroundColour(*wxWHITE);
+    grid->SetGridLineColour(*wxBLACK);
 
     framesizer->Add(grid);
 
@@ -233,34 +236,6 @@ bool MyFrame::CheckMoveLegal(int ROW, int COL, int NUM) {
     return true;
 }
 
-bool MyFrame::CheckMoveLegal(int puzzle[9][9], int ROW, int COL, int NUM) {
-    //Checking that it is not in the same row
-    for (int i = 0; i < 9; i++) {
-        if (puzzle[ROW][i] == NUM) {
-            return false;
-        }
-    }
-
-    //Checking that it is not in the same COL
-    for (int j = 0; j < 9; j++) {
-        if (puzzle[j][COL] == NUM) {
-            return false;
-        }
-    }
-
-    int srow, scol;
-    srow = ROW - ROW % 3;
-    scol = COL - COL % 3;
-    //Checks to see if it is in the same 3 x 3 box
-    for (int r = 0; r < 3; r++) {
-        for (int c = 0; c < 3; c++) {
-            if (puzzle[srow + r][scol + c] == NUM) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
 
 void MyFrame::Solve(wxCommandEvent& event) {
     Solver();
@@ -278,10 +253,11 @@ bool MyFrame::Solver() {
     std::pair<int, int> rowcol = getEmptyCell();
     int r = rowcol.first;
     int c = rowcol.second;
-
+    grid->SetCellBackgroundColour(r, c, *wxCYAN);
     for (int num = 1; num <= 9; num++) {
         if (CheckMoveLegal(r, c, num)) {
             grid->SetCellValue(r, c, std::to_string(num));
+            grid->SetCellBackgroundColour(r, c, *wxWHITE);
             wxWindow::Refresh(); wxWindow::Update();
 
             if (Solver()) {
@@ -289,31 +265,10 @@ bool MyFrame::Solver() {
             }
 
             grid->SetCellValue(r, c, " ");
+            grid->SetCellBackgroundColour(r, c, *wxWHITE);
             wxWindow::Refresh(); wxWindow::Update();
         }
     }
     return false;
 }
 
-bool MyFrame::Solver(int puzzle[9][9]) {
-
-    if (getEmptyCell(puzzle) == std::make_pair(9, 9)) {
-        return true;
-    }
-
-    std::pair<int, int> rowcol = getEmptyCell(puzzle);
-    int r = rowcol.first;
-    int c = rowcol.second;
-
-    for (int num = 1; num <= 9; num++) {
-        if (CheckMoveLegal(puzzle, r, c, num)) {
-            puzzle[r][c] = num;
-            if (Solver(puzzle)) {
-                return true;
-            }
-
-            puzzle[r][c] = 0;
-        }
-    }
-    return false;
-}
